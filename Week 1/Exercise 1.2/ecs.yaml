@@ -426,7 +426,7 @@ Resources:
       ContainerDefinitions: 
         - 
           Name: timezones-frontend-task
-          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/timezones-frontend-task:latest
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/timezones-frontend:latest
           PortMappings: 
             - 
               ContainerPort: 8080
