@@ -10,4 +10,4 @@ docker ps
 curl http://$private_ip:8081/api/v1.0/get_zones
 cd ~/environment/ex-ecs/FrontEnd
 docker build -t timezones-frontend .
-docker run -it -e APP_SERVER=http://$private_ip:8081 -p 8080:8080 timezones-frontend
+docker run -d -e APP_SERVER=http://$private_ip:8081 -p 8080:8080 timezones-frontend

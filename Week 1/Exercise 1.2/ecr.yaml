@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Metadata: 
+  License: Apache-2.0
+Description: Optimizing on AWS ECR Stack
+Resources:
+  FrontEndRepository: 
+    Type: AWS::ECR::Repository
+    Properties: 
+      RepositoryName: "timezones-frontend"
+      RepositoryPolicyText: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Sid: AllowPushPull
+            Effect: Allow
+            Principal: 
+              AWS: 
+                - !Sub arn:aws:iam::${AWS::AccountId}:user/*
+            Action: 
+              - "ecr:GetDownloadUrlForLayer"
+              - "ecr:BatchGetImage"
+              - "ecr:BatchCheckLayerAvailability"
+              - "ecr:PutImage"
+              - "ecr:InitiateLayerUpload"
+              - "ecr:UploadLayerPart"
+              - "ecr:CompleteLayerUpload"
+
+  AppServerRepository: 
+    Type: AWS::ECR::Repository
+    Properties: 
+      RepositoryName: "timezones-appserver"
+      RepositoryPolicyText: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Sid: AllowPushPull
+            Effect: Allow
+            Principal: 
+              AWS: 
+                - !Sub arn:aws:iam::${AWS::AccountId}:user/*
+            Action: 
+              - "ecr:GetDownloadUrlForLayer"
+              - "ecr:BatchGetImage"
+              - "ecr:BatchCheckLayerAvailability"
+              - "ecr:PutImage"
+              - "ecr:InitiateLayerUpload"
+              - "ecr:UploadLayerPart"
+              - "ecr:CompleteLayerUpload"              
+Outputs:
+  FrontEndRepository:
+    Value: !Ref FrontEndRepository
+  FrontEndRepository:
+    Value: !Ref AppServerRepository             

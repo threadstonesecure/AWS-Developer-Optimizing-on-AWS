@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Metadata: 
   License: Apache-2.0
-Description: Building on AWS IAM User Stack
+Description: Optimizing on AWS IAM User Stack
 Parameters:
   Password:
     NoEcho: 'true'
@@ -16,7 +16,7 @@ Resources:
     Properties: 
       PolicyName: edXOptimizingPolicy
       Users:
-        - !Ref edXDeployingUser     
+        - !Ref edXOptimizingUser     
       PolicyDocument: 
         Version: "2012-10-17"
         Statement: 
