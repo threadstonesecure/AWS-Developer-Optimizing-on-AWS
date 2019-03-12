@@ -1,0 +1,73 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Metadata: 
+  License: Apache-2.0
+Description: Building on AWS IAM User Stack
+Parameters:
+  Password:
+    NoEcho: 'true'
+    Type: String
+    Description: New account password
+    MinLength: '1'
+    MaxLength: '41'
+    ConstraintDescription: the password must be between 1 and 41 characters
+Resources:
+  edXDeployingPolicy:
+    Type: AWS::IAM::Policy
+    Properties: 
+      PolicyName: edXOptimizingPolicy
+      Users:
+        - !Ref edXDeployingUser     
+      PolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Action: 
+              - rds:*
+              - ssm:*
+              - kms:*
+              - apigateway:*
+              - lambda:*
+              - sns:*
+              - application-autoscaling:*
+              - s3:*
+              - logs:*
+              - cloudformation:*
+              - dynamodb:*
+              - cloud9:*
+              - elasticloadbalancing:*
+              - autoscaling:*
+              - iam:*
+              - cloudfront:*
+              - cloudwatch:*
+              - ecs:*
+              - ecr:*
+              - pricing:*
+              - ec2:*
+              - config:*
+              - elasticache:*
+            Resource: "*"
+
+          
+  edXOptimizingUser:
+    Type: AWS::IAM::User
+    Properties:
+      LoginProfile:
+        Password: !Ref 'Password'
+        PasswordResetRequired: false
+      UserName: edXOptimizingUser
+      
+  AccessKey:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      UserName: !Ref 'edXOptimizingUser'
+      
+Outputs:
+  EdXDeployingUser:
+    Value: !GetAtt edXOptimizingUser.Arn
+  AccessKey:
+    Value: !Ref 'AccessKey'
+    Description: AWSAccessKeyId of new user
+  SecretKey:
+    Value: !GetAtt [AccessKey, SecretAccessKey]
+    Description: AWSSecretKey of new user
