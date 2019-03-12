@@ -15,7 +15,8 @@ Resources:
             Effect: Allow
             Principal: 
               AWS: 
-                - !Sub arn:aws:iam::${AWS::AccountId}:user/*
+                - !Sub arn:aws:iam::${AWS::AccountId}:user/awsstudent
+                - !Sub arn:aws:iam::${AWS::AccountId}:user/edXOptimizingUser
             Action: 
               - "ecr:GetDownloadUrlForLayer"
               - "ecr:BatchGetImage"
@@ -37,7 +38,8 @@ Resources:
             Effect: Allow
             Principal: 
               AWS: 
-                - !Sub arn:aws:iam::${AWS::AccountId}:user/*
+                - !Sub arn:aws:iam::${AWS::AccountId}:user/awsstudent
+                - !Sub arn:aws:iam::${AWS::AccountId}:user/edXOptimizingUser
             Action: 
               - "ecr:GetDownloadUrlForLayer"
               - "ecr:BatchGetImage"
@@ -49,5 +51,5 @@ Resources:
 Outputs:
   FrontEndRepository:
     Value: !Ref FrontEndRepository
-  FrontEndRepository:
+  AppServerRepository:
     Value: !Ref AppServerRepository             
