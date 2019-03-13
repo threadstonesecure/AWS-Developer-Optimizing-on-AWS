@@ -164,6 +164,11 @@ Resources:
     UpdatePolicy:
       AutoScalingReplacingUpdate:
         WillReplace: 'true'
+    Tags:
+      - Key: Name
+        Value: Container Host
+        PropagateAtLaunch: 'true'
+        
   ContainerInstances:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
