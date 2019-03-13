@@ -7,6 +7,7 @@ cd ~/environment
 gem install jekyll bundler
 jekyll new my-static-website
 cd my-static-website
+# https://jekyllrb.com/docs/configuration/options/
 bundle exec jekyll serve --port 8080 -B
 cd _site/
 aws s3 sync . s3://$CDNBucket
