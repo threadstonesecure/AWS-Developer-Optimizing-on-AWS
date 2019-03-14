@@ -1,0 +1,110 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Metadata: 
+  License: Apache-2.0
+Description: Optimizing on AWS IAM User Stack
+Parameters:
+  Password:
+    NoEcho: 'true'
+    Type: String
+    Description: New account password
+    MinLength: '1'
+    MaxLength: '41'
+    ConstraintDescription: the password must be between 1 and 41 characters
+Resources:
+  edXDeployingPolicy:
+    Type: AWS::IAM::Policy
+    Properties: 
+      PolicyName: edXOptimizingPolicy
+      Users:
+        - !Ref edXOptimizingUser     
+      PolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Action: 
+              - rds:*
+              - ssm:*
+              - kms:*
+              - apigateway:*
+              - lambda:*
+              - sns:*
+              - application-autoscaling:*
+              - s3:*
+              - logs:*
+              - cloudformation:*
+              - dynamodb:*
+              - cloud9:*
+              - elasticloadbalancing:*
+              - autoscaling:*
+              - iam:*
+              - cloudfront:*
+              - cloudwatch:*
+              - ecs:*
+              - ecr:*
+              - pricing:*
+              - ec2:*
+              - config:*
+              - elasticache:*
+              - xray:*
+            Resource: "*"
+
+          
+  edXOptimizingUser:
+    Type: AWS::IAM::User
+    Properties:
+      LoginProfile:
+        Password: !Ref 'Password'
+        PasswordResetRequired: false
+      UserName: edXOptimizingUser
+      
+  AccessKey:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      UserName: !Ref 'edXOptimizingUser'
+
+  DenyBucketDeletionPolicy:
+    Type: AWS::IAM::Policy
+    Properties: 
+      PolicyName: DenyBucketDeletionPolicy
+      Users:
+        - !Ref edXOptimizingUser     
+      PolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Sid: ExplicitlyDenyBucketDeletion
+            Effect: "Deny"
+            Action: 
+              - s3:DeleteBucket
+            Resource: arn:aws:s3:::edx-*  
+            
+  AllowBucketDeletionPolicy:
+    Type: AWS::IAM::Policy
+    Properties: 
+      PolicyName: AllowBucketDeletionPolicy
+      Users:
+        - !Ref edXOptimizingUser     
+      PolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Sid: ExplicitlyAllowBucketDeletion
+            Effect: "Allow"
+            Action: 
+              - s3:DeleteBucket
+            Resource: arn:aws:s3:::edx-*      
+            
+Outputs:
+  EdXDeployingUser:
+    Value: !GetAtt edXOptimizingUser.Arn
+  AccessKey:
+    Value: !Ref 'AccessKey'
+    Description: AWSAccessKeyId of new user
+  SecretKey:
+    Value: !GetAtt [AccessKey, SecretAccessKey]
+    Description: AWSSecretKey of new user
+  DenyBucketDeletionPolicy:
+    Value: !Ref DenyBucketDeletionPolicy
+  AllowBucketDeletionPolicy:
+    Value: !Ref AllowBucketDeletionPolicy
