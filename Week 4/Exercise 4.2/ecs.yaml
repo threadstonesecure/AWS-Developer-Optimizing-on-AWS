@@ -488,7 +488,33 @@ Resources:
       ListenerArn: !Ref PublicLoadBalancerListener
       Priority: 11
 
- 
+   MemoryReservationScaleUpPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+      AdjustmentType: SimpleScaling
+      AutoScalingGroupName:
+        Ref: ECSAutoScalingGroup
+      Cooldown: '300'
+      ScalingAdjustment: '1'
+
+  MemoryReservationHighAlert:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      EvaluationPeriods: '1'
+      Statistic: Maximum
+      Threshold: 60
+      AlarmDescription: Alarm if Memory too high or metric disappears indicating instance
+        is down
+      Period: '60'
+      AlarmActions:
+      - Ref: MemoryReservationScaleUpPolicy
+      Namespace: AWS/ECS
+      Dimensions:
+      - Name: ClusterName
+        Value:
+          Ref: ECSCluster
+      ComparisonOperator: GreaterThanThreshold
+      MetricName: MemoryReservation
           
 # These are the values output by the CloudFormation template. Be careful
 # about changing any of them, because of them are exported with specific
