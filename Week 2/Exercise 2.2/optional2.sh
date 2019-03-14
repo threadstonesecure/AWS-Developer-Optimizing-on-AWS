@@ -1,7 +1,7 @@
 cp Dockerfile ../../../ex-elasticache/FlaskApp/
 
 cd ../../../ex-elasticache/FlaskApp/
-XrayCode="xray_recorder.configure(service='elasticache exercise',daemon_address='aws-xray-daemon:2000')"
+XrayCode="import os\nxray_recorder.configure(service='elasticache exercise',daemon_address=os.environ['DOCKER_HOST']+':2000')"
 sed -i "s/xray_recorder.configure(service='elasticache exercise')/$XrayCode/g" application.py
 
 docker build -t elasticache_server .
@@ -12,6 +12,6 @@ MEMCACHED_HOST=$(aws cloudformation describe-stacks --stack-name edx-project-ela
 docker run -it \
 -v /home/ec2-user/.aws:/root/.aws \
 -e MEMCACHED_HOST=$MEMCACHED_HOST \
+-e "DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')" \
 -p 8080:8080 \
---link aws-xray-daemon:aws-xray-daemon \
 --name elasticache_server elasticache_server
