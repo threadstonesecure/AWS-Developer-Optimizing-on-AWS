@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources: 
+  CoursesDynamoDBTable: 
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      AttributeDefinitions: 
+        - 
+          AttributeName: "subject"
+          AttributeType: "S"
+        - 
+          AttributeName: "course_name"
+          AttributeType: "S"
+      KeySchema: 
+        - 
+          AttributeName: "subject"
+          KeyType: "HASH"
+        - 
+          AttributeName: "course_name"
+          KeyType: "RANGE"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+      TableName: "Courses"
