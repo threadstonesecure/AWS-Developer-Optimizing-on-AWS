@@ -158,16 +158,16 @@ Resources:
       MinSize: '1'
       MaxSize: !Ref 'MaxSize'
       DesiredCapacity: !Ref 'DesiredCapacity'
+      Tags:
+        - Key: Name
+          Value: Container Host
+          PropagateAtLaunch: 'true'
     CreationPolicy:
       ResourceSignal:
         Timeout: PT15M
     UpdatePolicy:
       AutoScalingReplacingUpdate:
         WillReplace: 'true'
-    Tags:
-      - Key: Name
-        Value: Container Host
-        PropagateAtLaunch: 'true'
         
   ContainerInstances:
     Type: AWS::AutoScaling::LaunchConfiguration
