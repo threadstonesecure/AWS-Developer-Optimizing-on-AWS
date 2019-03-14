@@ -13,6 +13,9 @@ Parameters:
   Subnet2:
     Type: AWS::EC2::Subnet::Id
     
+  Cloud9SecurityGroupId:
+    Type: AWS::EC2::SecurityGroup::Id 
+    
   ClusterName:
     Description: Custom name of the cluster. Auto generated if you don't supply your own.
     Type: String
@@ -82,6 +85,7 @@ Resources:
           IpProtocol: tcp
           FromPort: !If [ IsRedis, 6379, 11211]
           ToPort: !If [ IsRedis, 6379, 11211]
+          SourceSecurityGroupId: !Ref Cloud9SecurityGroupId
       Tags:
         -
           Key: Name

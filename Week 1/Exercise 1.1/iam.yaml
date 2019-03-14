@@ -46,6 +46,7 @@ Resources:
               - ec2:*
               - config:*
               - elasticache:*
+              - xray:*
             Resource: "*"
 
           

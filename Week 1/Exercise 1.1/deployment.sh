@@ -9,7 +9,7 @@ aws cloudformation create-stack --stack-name edx-project-iam-stack --template-bo
 aws cloudformation wait stack-create-complete --stack-name edx-project-iam-stack
 AWS_ACCESS_KEY_ID=$(aws cloudformation describe-stacks --stack-name edx-project-iam-stack \
 --query 'Stacks[0].Outputs[?OutputKey==`AccessKey`].OutputValue' --output text)
-AWS_SECRET_ACCESS_KEY=$(aws cloudformation describe-stacks --stack-name edx-projec-iamt-stack \
+AWS_SECRET_ACCESS_KEY=$(aws cloudformation describe-stacks --stack-name edx-project-iam-stack \
 --query 'Stacks[0].Outputs[?OutputKey==`SecretKey`].OutputValue' --output text)
 export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
