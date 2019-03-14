@@ -488,10 +488,11 @@ Resources:
       ListenerArn: !Ref PublicLoadBalancerListener
       Priority: 11
 
-   MemoryReservationScaleUpPolicy:
+  MemoryReservationScaleUpPolicy:
     Type: AWS::AutoScaling::ScalingPolicy
     Properties:
-      AdjustmentType: SimpleScaling
+      AdjustmentType: "ChangeInCapacity"
+      PolicyType: SimpleScaling
       AutoScalingGroupName:
         Ref: ECSAutoScalingGroup
       Cooldown: '300'

@@ -6,4 +6,4 @@ aws cloudformation update-stack --stack-name edx-project-ecs-stack --template-bo
 --capabilities CAPABILITY_NAMED_IAM
 
 aws cloudformation wait stack-update-complete --stack-name edx-project-ecs-stack
-echo -e "${RED}Exercise 4.1 Dynamodb Stack updated!${NOCOLOR}" 
+echo -e "${RED}Exercise 4.2 ECS Stack updated!${NOCOLOR}" 
