@@ -1,3 +1,5 @@
+#!/bin/sh
+
 rm -vf ${HOME}/.aws/credentials
 sudo yum -y install jq
 export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
@@ -6,7 +8,6 @@ echo "export AWS_REGION=${AWS_REGION}" >> ~/.bash_profile
 aws configure set default.region ${AWS_REGION}
 aws configure get default.region
 
-#!/bin/sh
 AWS_ACCESS_KEY_ID=$(aws cloudformation describe-stacks --stack-name edx-project-iam-stack \
 --query 'Stacks[0].Outputs[?OutputKey==`AccessKey`].OutputValue' --output text)
 AWS_SECRET_ACCESS_KEY=$(aws cloudformation describe-stacks --stack-name edx-project-iam-stack \
