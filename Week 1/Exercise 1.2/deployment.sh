@@ -15,7 +15,7 @@ docker push $AWSAccountId.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/timezones-fr
 docker images
 
 # Refer to https://github.com/nathanpeck/ecs-cloudformation
-aws iam create-service-linked-role --aws-service-name ecs.amazonaws.com
+# No need to run "aws iam create-service-linked-role --aws-service-name ecs.amazonaws.com" as Cloudformation support create Service Linked Role.
 aws cloudformation create-stack --stack-name edx-project-ecs-stack --template-body file://ecs.yaml \
 --capabilities CAPABILITY_NAMED_IAM
  

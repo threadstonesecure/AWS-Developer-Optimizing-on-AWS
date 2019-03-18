@@ -83,8 +83,6 @@ Resources:
     Type: AWS::IAM::Policy
     Properties: 
       PolicyName: AllowBucketDeletionPolicy
-      Users:
-        - !Ref edXOptimizingUser     
       PolicyDocument: 
         Version: "2012-10-17"
         Statement: 
@@ -93,8 +91,26 @@ Resources:
             Effect: "Allow"
             Action: 
               - s3:DeleteBucket
-            Resource: arn:aws:s3:::edx-*      
-            
+            Resource: arn:aws:s3:::edx-*  
+      Roles:
+        - !Ref AllowBucketDeletionRole
+
+  AllowBucketDeletionRole: 
+    Type: "AWS::IAM::Role"
+    Properties: 
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Principal: 
+              AWS: 
+                - !GetAtt edXOptimizingUser.Arn
+            Action: 
+              - "sts:AssumeRole"
+      Path: "/"   
+      
+      
 Outputs:
   EdXDeployingUser:
     Value: !GetAtt edXOptimizingUser.Arn
@@ -104,7 +120,5 @@ Outputs:
   SecretKey:
     Value: !GetAtt [AccessKey, SecretAccessKey]
     Description: AWSSecretKey of new user
-  DenyBucketDeletionPolicy:
-    Value: !Ref DenyBucketDeletionPolicy
-  AllowBucketDeletionPolicy:
-    Value: !Ref AllowBucketDeletionPolicy
+  AllowBucketDeletionRoleArn:
+    Value: !GetAtt AllowBucketDeletionRole.Arn
