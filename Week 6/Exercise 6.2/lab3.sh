@@ -1,4 +1,4 @@
-sed -i "s/WriteCapacityUnits: 1/WriteCapacityUnits: 5/g" challenge.yaml
+sed -i "s/WriteCapacityUnits: 1/WriteCapacityUnits: 15/g" challenge.yaml
 
 aws cloudformation update-stack --stack-name edx-challenge --template-body file://challenge.yaml \
 --capabilities CAPABILITY_NAMED_IAM \
